@@ -13,6 +13,7 @@ export const AppContextProvider = (props) => {
 
   const [allCourses, setAllCourses] = useState([]);
   const [isEducator, setIsEducator] = useState(true);
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
 
   //Fetch All Courses from the dummydata file assets.js
   const fetchAllCourses = () => {
@@ -36,27 +37,38 @@ export const AppContextProvider = (props) => {
   const calculateChapterTime = (chapter) => {
     let time = 0;
     chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration));
-    return humanizeDuration(time * 60 * 1000,{units:["h","m"]});
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
   };
 
   // Function to Calculate Course Duration
   const calculateCourseDuration = (course) => {
     let time = 0;
-    course.courseContent.map((chapter) => chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration)));
-    return humanizeDuration(time * 60 * 1000,{units:["h","m"]});
+    course.courseContent.map((chapter) =>
+      chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration))
+    );
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
   };
 
-// Function Clculate to No of Lectures in the course
-  const calculateNoOfLectures=(course)=>{
-    let totalLectures=0;
-    course.courseContent.forEach((chapter)=>{
-          if (Array.isArray(chapter.chapterContent)){
-            totalLectures+=chapter.chapterContent.length
-            
-          }
-    })
+  // Function Clculate to No of Lectures in the course
+  const calculateNoOfLectures = (course) => {
+    let totalLectures = 0;
+    course.courseContent.forEach((chapter) => {
+      if (Array.isArray(chapter.chapterContent)) {
+        totalLectures += chapter.chapterContent.length;
+      }
+    });
     return totalLectures;
-  }
+  };
+  //Fetch User Enrolled Courses
+  const fetchUserEnrolledCourses = async () => {
+    setEnrolledCourses(dummyCourses);
+  };
+
+  // Fetch all courses on component mount
+  useEffect(() => {
+    fetchAllCourses();
+    fetchUserEnrolledCourses();
+  }, []);
 
   // Fetch all courses on component mount
   const value = {
@@ -68,13 +80,11 @@ export const AppContextProvider = (props) => {
     setIsEducator,
     calculateNoOfLectures,
     calculateCourseDuration,
-    calculateChapterTime
+    calculateChapterTime,
+    enrolledCourses,
+    setEnrolledCourses,
+    fetchUserEnrolledCourses,
   };
-
-  // Fetch all courses on component mount
-  useEffect(() => {
-    fetchAllCourses();
-  }, []);
 
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
