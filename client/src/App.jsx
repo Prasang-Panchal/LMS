@@ -31,7 +31,7 @@ const App = () => {
 
         {/* Add a new route for the Educator component */}
         <Route path="/educator" element={<Educator />}>
-          <Route path="educator" element={<Dashboard />} />
+          <Route path="/educator" element={<Dashboard />} />
           <Route path="add-course" element={<AddCourse />} />
           <Route path="my-courses" element={<MyCourses />} />
           <Route path="student-enrolled" element={<StudentsEnrolled />} />
@@ -43,4 +43,4 @@ const App = () => {
 
 export default App;
 
-//5:43:00
+//6:18:45
