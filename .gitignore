@@ -2,3 +2,6 @@ client/node_modules
 client/.env
 client/dist
 client/dist-ssr
+
+server/node_modules
+server/.env
