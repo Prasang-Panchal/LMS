@@ -27,3 +27,5 @@ app.listen(PORT, () => {
 })
 
 // 7:04:00
+
+// 7:32:00 vercel setup
